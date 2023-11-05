@@ -46,11 +46,11 @@ const NewIssuePage = () => {
         <TextField.Root>
           <TextField.Input placeholder="Title" {...register("title")} />
         </TextField.Root>
-        {errors.title && (
-          <Text as="p" color="red">
-            {errors.title.message}
-          </Text>
-        )}
+
+        <Text as="p" color="red">
+          {errors.title?.message}
+        </Text>
+
         <Controller
           name={"description"}
           control={control}
@@ -58,11 +58,9 @@ const NewIssuePage = () => {
             <SimpleMDE placeholder="Description" {...field} />
           )}
         />
-        {errors.description && (
-          <Text as="p" color="red">
-            {errors.description.message}
-          </Text>
-        )}
+        <Text as="p" color="red">
+          {errors.description?.message}
+        </Text>
 
         <Button>Submit New Issue</Button>
       </form>
