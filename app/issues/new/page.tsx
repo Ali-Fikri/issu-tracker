@@ -11,6 +11,7 @@ import "easymde/dist/easymde.min.css";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { issueSchema } from "@/app/issueSchema";
 import { z } from "zod";
+import Spinner from "@/app/components/Spinner";
 
 type IssueForm = z.infer<typeof issueSchema>;
 
@@ -25,6 +26,8 @@ const NewIssuePage = () => {
   });
   const router = useRouter();
   const [error, setError] = useState("");
+  const [isSubmit, setIsSubmit] = useState(false);
+
   return (
     <div className="max-w-lg">
       {error && (
@@ -36,9 +39,11 @@ const NewIssuePage = () => {
         className="space-y-3"
         onSubmit={handleSubmit(async (data) => {
           try {
+            setIsSubmit(true);
             await axios.post("/api/issues", data);
             router.push("/issues");
           } catch (err) {
+            setIsSubmit(false);
             setError("An unexpected error occurred");
           }
         })}
@@ -62,7 +67,7 @@ const NewIssuePage = () => {
           {errors.description?.message}
         </Text>
 
-        <Button>Submit New Issue</Button>
+        <Button disabled={isSubmit}>Submit New Issue {isSubmit && <Spinner />}</Button>
       </form>
     </div>
   );
