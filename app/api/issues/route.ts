@@ -11,7 +11,7 @@ export const POST = async (req: NextRequest) => {
   const body = await req.json();
   const validation = issueSchema.safeParse(body);
 
-  if (!validation.success) return NextResponse.json(validation.error.errors);
+  if (!validation.success) return NextResponse.json(validation.error.format());
 
   const newIssue = await prisma.issue.create({
     data: { title: body.title, description: body.description },
